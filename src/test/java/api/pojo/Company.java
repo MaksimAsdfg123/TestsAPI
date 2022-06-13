@@ -1,7 +1,12 @@
 package api.pojo;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.ArrayList;
 
+@Data
+@Builder
 public class Company extends Root{
     private String name;
     private String type;

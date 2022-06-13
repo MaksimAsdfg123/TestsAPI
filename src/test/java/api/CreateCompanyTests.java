@@ -18,14 +18,16 @@ public class CreateCompanyTests {
     public void createCompany(){
         Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOK200());
         CompanyReq companyReq = new CompanyReq(nameCompany, "ООО", new String[]{"test_cu_11@mail.com", "sdfsd@gmail.com"}, "aa+1@mail.com");
-        Company company = given()
+        Response response = given()
                 .body(companyReq)
                 .when()
                 .post("tasks/rest/createcompany")
                 .then()
                 .log().all()
-                .extract().as(Company.class);
-        Assertions.assertNotNull(company.getId_company());
+                .extract().response();
+        JsonPath jsonPath = response.jsonPath();
+        Integer id_company = jsonPath.get("id_company");
+        Assertions.assertNotNull(id_company);
     }
 
     @Test
