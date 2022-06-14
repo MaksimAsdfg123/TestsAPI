@@ -77,4 +77,20 @@ public class CreateCompanyTests {
         String message = jsonPath.get("message");
         Assertions.assertEquals("Пользователь не найден c email_owner ", message);
     }
+
+    @Test
+    public void createCompanyWithoutCompanyType(){
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOK200());
+        CompanyReq companyReq3 = new CompanyReq(nameCompany, "", new String[]{"test_cu_11@mail.com", "sdfsd@gmail.com"}, "aa+1@mail.com");
+        Response response = given()
+                .body(companyReq3)
+                .when()
+                .post("tasks/rest/createcompany")
+                .then()
+                .log().all()
+                .extract().response();
+        JsonPath jsonPath = response.jsonPath();
+        String message = jsonPath.get("message");
+        Assertions.assertEquals(" company_type  некорректный", message);
+    }
 }
